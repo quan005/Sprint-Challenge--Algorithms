@@ -97,7 +97,61 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        # First turn light on to set up base case
+        self.set_light_on()
+
+        while self.light_is_on():
+            self.swap_item() #Because the robot is holding None
+            # print(self._list)
+            # print('First Swap', self._list[self._position])
+
+            # Move Right, compare and swap
+            while self.can_move_right():
+                self.move_right()
+                # print(self._list)
+                # print('Moved Right', self._list[self._position])
+
+                if self.compare_item() < 0:
+                    self.swap_item()
+                    # print(self._list)
+                    # print('Moved Right and Swapped', self._list[self._position])
+
+            self.swap_item()
+            # print(self._list)
+            # print('After Moving Right, Swapped', self._list[self._position])
+
+
+            # Move Left, compare and swap
+            while self.can_move_left():
+
+                if self.compare_item() is None:
+                    self.swap_item()
+                    # print(self._list)
+                    # print('Moved Left, compare equalled None, so Swap', self._list[self._position])
+                    break
+                elif self.compare_item() > 0:
+                    self.swap_item()
+                    # print(self._list)
+                    # print('Moved Left, compared is less, so Swap', self._list[self._position])
+
+                self.move_left()
+                # print(self._list)
+                # print('Moved Left', self._list[self._position])
+
+            if not self.can_move_left() and self.compare_item() is None:
+                self.swap_item()
+                # print(self._list)
+                # print('Cant Move left and Compare is None, so Swap', self._list[self._position])
+
+            if not self.can_move_right():
+                self.set_light_off()
+                self.swap_item()
+                # print(self._list)
+                # print('Cant Move Right, so Swap', self._list[self._position])
+
+            self.move_right()
+            # print(self._list)
+            # print('Final Move Right', self._list[self._position])
 
 
 if __name__ == "__main__":
@@ -110,3 +164,22 @@ if __name__ == "__main__":
 
     robot.sort()
     print(robot._list)
+
+
+# WHAT WE KNOW:
+# - our input is a list of integers
+# - our output should return a sorted version of our input
+# - we can't store any variables
+# 
+# OUR ROBOT CAN ALREADY:
+# - can move an item left or right
+# - can swap items
+# - can turn light on and off
+# - can check if light is on or off
+# 
+# Plan:
+# use light as base case
+# use class methods to implement bubble sort 
+# iterate right, compare and swap
+# iterate left, compare and swap
+# use light for while method or base case
